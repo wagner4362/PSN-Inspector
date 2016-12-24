@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>PSN Inspector</title>
+    <meta name="author" content="MacroPolo">
+    <meta content="Playstation Network Speed Analysis" />
+    <!-- Refresh the page every 5 minutes -->
+    <meta http-equiv="refresh" content="300">
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+
+      table.status {
+          border-collapse: collapse;
+          margin-top: 25px;
+          font-size: 12px;
+      }
+
+      td.status {
+          border: 1px #666 solid;
+          padding: 8px;
+      }
+
+	    td.status {
+          padding: 8px;
+      }
+	
+	    td.status:nth-child(1) {  
+          background: #d6d6d6;
+          color: #333;
+          font-weight: bold;
+	    }
+
+      td.status:nth-child(3) {
+          background: #d6d6d6;
+          color: #333;
+          font-weight: bold;
+      }
+
+      td.status:nth-child(5) {
+          background: #d6d6d6;
+          color: #333;
+          font-weight: bold;
+      }
+     </style>
+
+  </head>
+
+  <body>
+
+    <div class="container-fluid">
+
+      <h1>PSN Inspector - Playstation Network Speed Analysis</h1>
+
+      <hr>
+
+      <h2> Overview </h2>
+
+      <br>
+
+      <ul>
+        <li>DNS lookup for <strong>gs2.ww.prod.dl.playstation.net</strong> performed every minute and the resolved IP logged to a database</li>
+        <li>20MB file downloaded every 15 minutes from each of the 4 PSN CDN providers using a random IP address from the database</li>
+        <li>After enough data has been collected, the tables below can be used to determine which CDN and IP addresses provide you the best throughput</li>
+        <li>All testing has been performed from the UK</li>
+        <li>Source code and instructions on GitHub: <a href="https://github.com/MacroPolo/PSN-Inspector">https://github.com/MacroPolo/PSN-Inspector</a></li>
+      </ul>
+
+      <hr>
+
+      <h2> Summary </h2>
+
+      <script src="js/d3.v3.min.js"></script>
+      <script type="text/javascript"charset="utf-8">
+            d3.text("data/status.csv", function(data) {
+                var parsedCSV = d3.csv.parseRows(data);
+
+                var container = d3.select("p")
+		                .attr("id", "insert")
+                        .insert("table")
+
+                    .selectAll("tr")
+                        .data(parsedCSV).enter()
+                        .append("tr")
+
+                    .selectAll("td")
+                        .data(function(d) { return d; }).enter()
+                        .append("td")
+                        .text(function(d) { return d; });
+            });
+       </script>
+
+       <script type="text/javascript"charset="utf-8">
+            d3.text("data/status.csv", function(data) {
+                var parsedCSV = d3.csv.parseRows(data);
+
+                var container = d3.select("table")
+                    .attr("class", "status")
+
+	                  .selectAll("tr")
+                        .attr("class", "status")
+
+                    .selectAll("td")
+		                    .attr("class", "status");
+            });
+       </script>
+
+
+      <p id="insert"></p>
+
+      <hr>
+
+      <h2> Full Results </h2>
+
+      <div id='table-container'></div>
+
+    </div><!-- /.container -->
+
+    <footer class='footer'>
+      <div class='container-fluid'>
+        <hr>
+        <p class='pull-right'><a href='https://github.com/derekeder/csv-to-html-table'>CSV to HTML Table</a> by <a href='http://derekeder.com'>Derek Eder</a></p>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.csv.min.js"></script>
+    <script src="js/jquery.dataTables.min.js"></script>
+    <script src="js/dataTables.bootstrap.js"></script>
+    <script src="js/csv_to_html_table.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+
+    <script>
+      function format_link(link){
+        if (link)
+          return "<a href='" + link + "' target='_blank'>" + link + "</a>";
+        else
+          return "";
+      }
+
+      CsvToHtmlTable.init({
+        csv_path: 'data/output.csv', 
+        element: 'table-container', 
+        allow_download: true,
+        csv_options: {separator: ',', delimiter: '"'},
+        datatables_options: {"paging": false, "order": [[ 4, "desc" ]]}
+      });
+    </script>
+  </body>
+</html>
