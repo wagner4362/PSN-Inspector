@@ -121,17 +121,20 @@ def download(json_domain, json_path, json_size):
     cdn_ips = [akamai_ip, limelight_ip, lvl3_ip, cloudfront_ip]
     cdn_names = ['Akamai', 'Limelight', 'Level3', 'CloudFront']
 
-    # retrieve top 3 performing IP addresses
-    c.execute('SELECT ip FROM output ORDER BY avg_bw DESC LIMIT 3')
-    top_ips = c.fetchall()
-    # retrieve the 3 assocaited CDNs
-    c.execute('SELECT cdn FROM output ORDER BY avg_bw DESC LIMIT 3')
-    top_cdns = c.fetchall()
+    try:
+        # retrieve top 3 performing IP addresses
+        c.execute('SELECT ip FROM output ORDER BY avg_bw DESC LIMIT 3')
+        top_ips = c.fetchall()
+        # retrieve the 3 assocaited CDNs
+        c.execute('SELECT cdn FROM output ORDER BY avg_bw DESC LIMIT 3')
+        top_cdns = c.fetchall()
 
-    for top_ip in top_ips:
-        cdn_ips.append(top_ip)
-    for top_cdn in top_cdns:
-        cdn_names.append(top_cdn[0])
+        for top_ip in top_ips:
+            cdn_ips.append(top_ip)
+        for top_cdn in top_cdns:
+            cdn_names.append(top_cdn[0])
+    except:
+        pass
 
     for ip_addr, name in zip(cdn_ips, cdn_names):
         if ip_addr is None:
@@ -165,7 +168,6 @@ def download(json_domain, json_path, json_size):
                 throughput = int(throughput[0]) * 8.0 / 1000000
                 throughput = "%.2f" % throughput
                 break
-        print timestamp, type(timestamp), name, type(name), ip_addr[0], type(ip_addr[0]), throughput, type(throughput)
         c.execute("INSERT INTO download (TIMESTAMP,CDN,IP,BANDWIDTH) \
                  VALUES (?, ?, ?, ?)", (timestamp, name, ip_addr[0], throughput))
         conn.commit()
