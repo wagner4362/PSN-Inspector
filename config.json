@@ -1,7 +1,7 @@
 {
   "options": {
     "download_domain": "gs2.ww.prod.dl.playstation.net",
-    "download_path": "/gs2/some/file/to/download/from/psn.pkg",
+    "download_path": "/gs2/your/download/url/here.pkg",
     "download_size": 20971520,
     "delete_period": "-7 day"
   }

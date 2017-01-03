@@ -62,7 +62,8 @@
 
     <div class="container-fluid">
 
-      <h1>PSN Inspector - Playstation Network Speed Analysis</h1>
+      <h1>PSN Inspector</h1>
+      <h5>Playstation Network Speed Analysis by <a href="https://github.com/MacroPolo/PSN-Inspector">MacroPolo</a> aka <a href="https://www.reddit.com/user/MrRiddell/">/u/MrRiddell</a></h5>
 
       <hr>
 
@@ -71,11 +72,13 @@
       <br>
 
       <ul>
-        <li>DNS lookup for <strong>gs2.ww.prod.dl.playstation.net</strong> performed every minute and the resolved IP logged to a database</li>
-        <li>20MB file downloaded every 15 minutes from each of the 4 PSN CDN providers using a random IP address from the database</li>
-        <li>After enough data has been collected, the tables below can be used to determine which CDN and IP addresses provide you the best throughput</li>
-        <li>All testing has been performed from the UK</li>
-        <li>Source code and instructions on GitHub: <a href="https://github.com/MacroPolo/PSN-Inspector">https://github.com/MacroPolo/PSN-Inspector</a></li>
+        <li>DNS lookup for <strong><code>gs2.ww.prod.dl.playstation.net</code></strong> performed every minute and the resolved IP logged to a database</li>
+        <li>20MB file downloaded every 15 minutes using a random IP address resolved from each of the 4 PSN CDN providers</li>
+        <li>20MB file downloaded every 15 minutes using the top 3 performing IP addresses</li>
+        <li>Current Configured IP is read from <code>/etc/hosts</code> file if available</li>
+        <li>Recommended IP is best IP with highest Average Throughput in the last 24 hours<\li>
+        <li>All testing has been performed from the UK. <strong>The IP addresses below will not be optimal for non UK PS4 users</strong>.</li>
+        <li>Source code on GitHub: <a href="https://github.com/MacroPolo/PSN-Inspector">https://github.com/MacroPolo/PSN-Inspector</a></li>
       </ul>
 
       <hr>
