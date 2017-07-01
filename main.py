@@ -326,13 +326,14 @@ def status():
 
     # Get the current IP address configured in /etc/hosts if possible
     try:
-        with open('/etc/hosts', 'r') as f:
-            for line in f:
+        with open(r'/etc/hosts') as f:
+            lines = [line for line in f.read().splitlines() if line]
+            for line in lines:
                 host_ip = re.findall(r"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b.+(?=gs2)", line)
+                print(host_ip)
                 if host_ip:
                     current_ip = host_ip[0].strip()
-                else:
-                    current_ip = 'None'
+                    print(current_ip)
     except:
         current_ip = 'Unknown'
 
